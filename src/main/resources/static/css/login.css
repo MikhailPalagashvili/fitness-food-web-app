@@ -1,0 +1,10 @@
+h1 {
+    color: brown;
+    padding-bottom: 30px;
+}
+
+#login_img {
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}

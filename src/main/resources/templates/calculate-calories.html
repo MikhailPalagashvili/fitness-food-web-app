@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Calculate Calories</title>
+		<link rel="stylesheet" th:href="@{/css/home.css}"/>
+		<link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+		      rel="stylesheet">
+	</head>
+	<body>
+		<div class="text-center align-content-center">
+			<!--			<h1><strong>Welcome <span th:text="${registerForm.userName}"/></strong></h1>-->
+			<h1><strong>Welcome <span th:text="${userName}"/></strong></h1>
+			<h2>Let's Calculate How Many Calories You Need Per A Day</h2>
+			<br/>
+			<hr/>
+			<form action="#" method="post" th:action="@{/calculate-calories.html}" th:object="${userBodyWeightInfo}">
+				<p>Weight: <input th:field="*{weight}" type="text"/></p>
+				<p>Height: <input th:field="*{height}" type="text"/></p>
+				<p>Body Fat Percentage: <input th:field="*{bodyFatPercentage}" type="text"/></p>
+				<p>Diet Plan: <input th:field="*{dietPlan}" type="text"/></p>
+				<p>Number of Exercising days: <input th:field="*{numberOfExercisingDays}" type="text"/></p>
+				<p><input type="submit" value="Calculate Calories"/></p>
+			</form>
+		</div>
+	</body>
+</html>

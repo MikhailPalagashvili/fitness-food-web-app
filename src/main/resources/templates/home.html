@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Home</title>
+		<link rel="stylesheet" th:href="@{/css/home.css}"/>
+		<link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+		      rel="stylesheet">
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-sm navbar-light bg-dark">
+			<button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+			        class="navbar-toggler"
+			        data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link text-white" th:href="@{'/home.html'}">Home <span
+								class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-white" href="#">Bio</a>
+					</li>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div th:fragment="home_contents">
+			<div class="page-header">
+				<p th:text="${userLoginInfo.email}">Email: </p>
+				<p th:text="${userLoginInfo.password}">Password: </p>
+			</div>
+		</div>
+	
+	</body>
+</html>
