@@ -2,7 +2,7 @@ package com.mikhailpalagashvili.fitnessfoodwebapp.controller;
 
 import com.mikhailpalagashvili.fitnessfoodwebapp.domain.model.RegisterForm;
 import com.mikhailpalagashvili.fitnessfoodwebapp.domain.model.UserLoginInfo;
-import com.mikhailpalagashvili.fitnessfoodwebapp.service.UserInfoService;
+import com.mikhailpalagashvili.fitnessfoodwebapp.service.UserLoginService;
 import com.mikhailpalagashvili.fitnessfoodwebapp.service.email.EmailServiceImpl;
 import com.mikhailpalagashvili.fitnessfoodwebapp.validation.GroupOrder;
 import com.mikhailpalagashvili.fitnessfoodwebapp.validation.validator.EmailValidator;
@@ -10,55 +10,56 @@ import com.mikhailpalagashvili.fitnessfoodwebapp.validation.validator.UserNameVa
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
-@RequestMapping("/register.html")
+@RequestMapping({"/register", "/register.html"})
 @SessionAttributes("registerForm")
 public class RegisterController {
-    private final UserInfoService userInfoService;
-
+    private final UserLoginService userLoginService;
     private final EmailServiceImpl emailService;
 
     @Autowired
-    public RegisterController(final UserInfoService userInfoService, final EmailServiceImpl emailService) {
-        this.userInfoService = userInfoService;
+    public RegisterController(final UserLoginService userLoginService, final EmailServiceImpl emailService) {
+        this.userLoginService = userLoginService;
         this.emailService = emailService;
     }
 
-    @GetMapping
-    public String getRegister(final RegisterForm registerForm, final Model model) {
-        model.addAttribute(registerForm);
-        return "register";
+    @ModelAttribute("registerForm")
+    public RegisterForm registerForm() {
+        return new RegisterForm();
     }
 
     @GetMapping
-    public String getRegister(final RegisterForm registerForm) {
+    public String getRegister() {
         return "register";
     }
 
     @PostMapping
     public String postRegister(@ModelAttribute @Validated(GroupOrder.class) final RegisterForm registerForm,
-                               final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+                               final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getAllErrors());
-            return getRegister(registerForm);
+            return "/register";
         }
         emailService.sendEmail(registerForm);
-//        redirectAttributes.addFlashAttribute("registerForm", registerForm);
         final UserLoginInfo userLoginInfo = new UserLoginInfo();
         userLoginInfo.setEmail(registerForm.getUserLoginInfo().getEmail());
         userLoginInfo.setPassword(registerForm.getUserLoginInfo().getPassword());
-        final boolean isInserted = userInfoService.insert(userLoginInfo);
-        if (isInserted) System.out.println("inserted");
-        else System.out.println("not inserted");
+        final boolean isTaken = userLoginService.selectOne(userLoginInfo.getEmail()) != null;
+        if (isTaken) {
+
+            System.out.println("taken");
+            return "/register";
+        }
+        System.out.println("not taken");
+        userLoginService.insert(userLoginInfo);
         System.out.println(registerForm);
+
         return "redirect:/calculate-calories.html";
     }
 

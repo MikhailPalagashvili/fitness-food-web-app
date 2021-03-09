@@ -7,22 +7,91 @@
 		<link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 		      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 		      rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		        crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		        crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		        crossorigin="anonymous"></script>
 	</head>
-	<body>
-		<div class="text-center align-content-center">
-			<!--			<h1><strong>Welcome <span th:text="${registerForm.userName}"/></strong></h1>-->
-			<h1><strong>Welcome <span th:text="${userName}"/></strong></h1>
-			<h2>Let's Calculate How Many Calories You Need Per A Day</h2>
-			<br/>
-			<hr/>
-			<form action="#" method="post" th:action="@{/calculate-calories.html}" th:object="${userBodyWeightInfo}">
-				<p>Weight: <input th:field="*{weight}" type="text"/></p>
-				<p>Height: <input th:field="*{height}" type="text"/></p>
-				<p>Body Fat Percentage: <input th:field="*{bodyFatPercentage}" type="text"/></p>
-				<p>Diet Plan: <input th:field="*{dietPlan}" type="text"/></p>
-				<p>Number of Exercising days: <input th:field="*{numberOfExercisingDays}" type="text"/></p>
-				<p><input type="submit" value="Calculate Calories"/></p>
-			</form>
+	<body id="register_img" th:style="'background-image: url(/images/register.jpg);'">
+		<div class="text-center mt-xl-5" id="header">
+			<div class="container" id="subheading">
+				<form action="/calculate-calories.html" class="bg-light"
+				      id="form" method="post" th:object="${userBodyWeightInfo}">
+					<h1><strong>Welcome <span th:text="${userName}"/></strong></h1>
+					<h2>Let's Calculate How Many Calories You Need Per A Day</h2>
+					<div class="form-group row" th:classappend="${#fields.hasErrors('weight')}?'has-error'">
+						<label class="col-sm-2 col-form-label" for="inputWeight">weight</label>
+						<div class="col-sm-10">
+							<input class="form-control" id="inputWeight" name="weight" placeholder="Weight"
+							       required th:field="*{weight}" type="text">
+							<span class="text-danger" th:if="${#fields.hasErrors('weight')}">invalid weight</span>
+						</div>
+					</div>
+					<div class="form-group row" th:classappend="${#fields.hasErrors('height')}?'has-error'">
+						<label class="col-sm-2 col-form-label" for="inputHeight">height</label>
+						<div class="col-sm-10">
+							<input class="form-control" id="inputHeight" name="height" placeholder="Height"
+							       required th:field="*{height}" type="text">
+							<span class="text-danger"
+							      th:if="${#fields.hasErrors('height')}">height</span>
+						</div>
+					</div>
+					<div class="form-group row" th:classappend="${#fields.hasErrors('bodyFatPercentage')}?'has-error'">
+						<label class="col-sm-2 col-form-label" for="inputBodyFatPercentage">Body Fat %</label>
+						<div class="col-sm-10">
+							<input class="form-control" id="inputBodyFatPercentage" name="body fat %"
+							       placeholder="Body Fat %"
+							       required th:field="*{bodyFatPercentage}" type="text">
+							<span class="text-danger"
+							      th:if="${#fields.hasErrors('bodyFatPercentage')}">body fat error</span>
+						</div>
+					</div>
+					<div class="dropdown show">
+						<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dietPlan"
+						   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Diet Plan
+						</a>
+						
+						<div class="dropdown-menu" aria-labelledby="dietPlan">
+							<a class="dropdown-item" href="#">cut</a>
+							<a class="dropdown-item" href="#">maintain</a>
+							<a class="dropdown-item" href="#">bulk</a>
+						</div>
+					</div>
+					<div class="dropdown show">
+						<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="numberOfExercisingDays"
+						   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Number of Exercising Days
+						</a>
+						
+						<div class="dropdown-menu" aria-labelledby="numberOfExercisingDays">
+							<a class="dropdown-item" href="#">0</a>
+							<a class="dropdown-item" href="#">1</a>
+							<a class="dropdown-item" href="#">2</a>
+							<a class="dropdown-item" href="#">3</a>
+							<a class="dropdown-item" href="#">4</a>
+							<a class="dropdown-item" href="#">5</a>
+							<a class="dropdown-item" href="#">6</a>
+							<a class="dropdown-item" href="#">7</a>
+						
+						</div>
+					</div>
+					<div class="mt-3 mb-5">
+						<!--						<ul>-->
+						<!--							<li th:each="error:${#fields.detailedErrors()}">-->
+						<!--								<span th:text="${error.message}">Error Message</span>-->
+						<!--							</li>-->
+						<!--						</ul>-->
+						<button class="btn btn-dark btn-lg btn-block" id="calculate_button" type="submit">Calculate
+						</button>
+					</div>
+				</form>
+			</div>
 		</div>
 	</body>
 </html>

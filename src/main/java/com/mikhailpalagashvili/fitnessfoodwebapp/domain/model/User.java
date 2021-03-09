@@ -15,4 +15,6 @@ public class User {
     private RegisterForm registerForm;
     @Valid
     private UserBodyWeightInfo userBodyWeightInfo;
+    @Valid
+    private Long registerFormId;
 }

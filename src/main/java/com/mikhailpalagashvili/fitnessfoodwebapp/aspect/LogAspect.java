@@ -24,7 +24,7 @@ public class LogAspect {
     /**
      * Aspect for log output of Dao class.
      */
-    @Around("execution(* *..*.*UserInfoRepository*.*(..))")
+    @Around("execution(* *..*.*Repository*.*(..))")
     public Object daoLog(ProceedingJoinPoint jp) throws Throwable {
 
         System.out.println("Method start: " + jp.getSignature());
